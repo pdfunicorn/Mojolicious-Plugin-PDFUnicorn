@@ -17,7 +17,7 @@ my $client = Mojolicious::Plugin::PDFUnicorn::Client->new({
     config => {
         api => {
             url_scheme => 'http',
-            key => '1e551787-903e-11e2-b2b6-0bbccb145af3',
+            key => 'testers-api-key',
             host => 'localhost:3000',
         }
     }
@@ -33,7 +33,7 @@ my $doc;
 try{
     $doc = $client->documents->create({
         #source => '<doc size="b5"><page>Hello World!</page></doc>'
-    }, { get_meta => 1 });
+    });
 } catch {
     my $exception = $_;
     is($exception->{message}{errors}[0], 'Document - Missing required attribute value: "source"');
@@ -47,7 +47,7 @@ $doc = $client->documents->create({
 });
 
 is($doc->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
-is($doc->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
+#is($doc->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
 ok($doc->{_id}, "_id ok");
 ok($doc->{uri}, "uri ok");
 ok($doc->{modified}, "modified ok");
@@ -67,7 +67,7 @@ ok($doc2 =~ /^%PDF/, 'doc is a PDF');
 
 my $doc3 = $client->documents->fetch($doc);
 is($doc3->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
-is($doc3->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
+#is($doc3->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
 ok($doc3->{_id}, "_id ok");
 ok($doc3->{uri}, "uri ok");
 ok($doc3->{modified}, "modified ok");
@@ -81,7 +81,6 @@ my $doc4 = $client->documents->fetch($doc, { binary => 1 });
 ok($doc4 =~ /^%PDF/, 'doc is a PDF');
 
 
-
 # create image and get image meta-data
 
 my $img1 = $client->images->create({
@@ -90,7 +89,7 @@ my $img1 = $client->images->create({
 });
 
 is($img1->{name}, "stock/logo.png", "name ok");
-is($img1->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
+#is($img1->{owner}, "1e551787-903e-11e2-b2b6-0bbccb145af3", "owner ok");
 ok($img1->{_id}, "_id ok");
 ok($img1->{uri}, "uri ok");
 ok($img1->{modified}, "modified ok");

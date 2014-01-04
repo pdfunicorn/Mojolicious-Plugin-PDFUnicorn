@@ -32,7 +32,7 @@ my $t = Test::Mojo->new;
 $t->get_ok('/')
     ->status_is(200)
     ->json_is( '/data/source' => "<doc><page>Hello World!</page></doc>", "correct source" )
-    ->json_is( '/data/owner' => "1e551787-903e-11e2-b2b6-0bbccb145af3", "correct owner" )
+    ->json_has( '/data/owner', "has owner" )
     ->json_has( '/data/_id', "has _id" )
     ->json_is( '/data/id' => "mycustomid", "correct id" )
     ->json_has( '/data/uri', "has uri" )

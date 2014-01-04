@@ -10,8 +10,8 @@ sub url_base{
     return join('',
         $self->config->{api}{url_scheme},
         '://',
-        #$self->config->{api}{key}, # basic auth via url not working for me..
-        #':@',
+        $self->config->{api}{key},
+        ':@',
         $self->config->{api}{host},
     );
 }

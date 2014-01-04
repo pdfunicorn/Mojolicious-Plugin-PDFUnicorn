@@ -21,12 +21,9 @@ sub create{
     my $ua = Mojo::UserAgent->new;
     my $url = $self->url_base.'/api/v1/images'. ($options->{binary} ? '.binary' : '');
 
-    my $headers = { 'Authorization' => 'Basic '.$self->config->{api}{key} };
-        
     if ($callback){
         $ua->post(
             $url,
-            $headers,
             form => {
                 image => { file => $image->{file} },
                 name => $image->{name},
@@ -38,7 +35,6 @@ sub create{
 
     my $tx = $ua->post(
         $url,
-        $headers,
         form => {
             image => { file => $image->{file} },
             name => $image->{name},

@@ -21,17 +21,15 @@ sub create{
     $options ||= {};
     my $callback = $options->{callback};
 
-    my $headers = { 'Authorization' => 'Basic '.$self->config->{api}{key} };
-    
     my $ua = Mojo::UserAgent->new;
     my $url = $self->url_base.'/api/v1/documents'. ($options->{binary} ? '.binary' : '');
     
     if ($callback){
-        $ua->post($url, $headers, json => $doc_meta, $self->callback($callback));
+        $ua->post($url, json => $doc_meta, $self->callback($callback));
         return 1;
     }
 
-    my $tx = $ua->post($url, $headers, json => $doc_meta);
+    my $tx = $ua->post($url, json => $doc_meta);
     my $res = $tx->res;
 
     if ($res->code != 200){
@@ -70,8 +68,6 @@ sub fetch{
     $options ||= {};
     my $callback = $options->{callback};
     my $binary = $options->{binary};
-    
-    my $headers = { 'Authorization' => 'Basic '.$self->config->{api}{key} };
         
     my $uri = $query_meta->{uri} || '/api/v1/documents/'.$query_meta->{id};
     
@@ -79,11 +75,11 @@ sub fetch{
     my $url = $self->url_base . $uri. ($binary ? '.binary' : '');
 
     if ($callback){
-        $ua->get($url, $headers, $self->callback($callback));        
+        $ua->get($url, $self->callback($callback));        
         return 1;
     }
 
-    my $tx = $ua->get($url, $headers);
+    my $tx = $ua->get($url);
     my $res = $tx->res;
         
     if ($res->headers->content_type eq 'application/json'){

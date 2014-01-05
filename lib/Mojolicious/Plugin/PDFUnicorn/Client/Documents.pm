@@ -34,16 +34,11 @@ sub create{
 
     if ($res->code != 200){
         Mojolicious::Plugin::PDFUnicorn::Client::Exception->throw({
-            errors => $res->json->{data}{errors},
+            errors => $res->json->{errors},
         });
     }
 
-    if ($res->headers->content_type eq 'application/json'){
-        return $res->json->{data};
-    } else {
-        return $res->body;
-    }
-
+    return $res->headers->content_type eq 'application/json' ? $res->json : $res->body;
 }
 
 #---
@@ -82,12 +77,7 @@ sub fetch{
     my $tx = $ua->get($url);
     my $res = $tx->res;
         
-    if ($res->headers->content_type eq 'application/json'){
-        return $res->json->{data};
-    } else {
-        return $res->body;
-    }
-
+    return $res->headers->content_type eq 'application/json' ? $res->json : $res->body;
 }
 
 

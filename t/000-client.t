@@ -33,7 +33,6 @@ try{
 } catch {
     my $exception = $_;
     is($exception->{message}{errors}[0], 'Document - Missing required attribute value: "source"');
-    warn Data::Dumper->Dumper($exception);
 }
 
 

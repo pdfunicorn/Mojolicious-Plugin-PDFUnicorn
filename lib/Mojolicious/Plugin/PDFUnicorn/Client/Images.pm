@@ -42,7 +42,7 @@ sub create{
     );
     my $res = $tx->res;
         
-    return $options->{binary} ? $res->body : $res->json->{data};
+    return $options->{binary} ? $res->body : $res->json;
 
 }
 

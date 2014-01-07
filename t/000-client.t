@@ -44,7 +44,7 @@ $doc = $client->documents->create({
 
 is($doc->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
 ok($doc->{owner}, "owner ok");
-ok($doc->{_id}, "_id ok");
+ok($doc->{id}, "id ok");
 ok($doc->{uri}, "uri ok");
 ok($doc->{modified}, "modified ok");
 ok($doc->{created}, "created ok");
@@ -56,7 +56,7 @@ ok(!$doc->{file}, "file ok");
 my $doc3 = $client->documents->fetch($doc);
 is($doc3->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
 ok($doc3->{owner}, "owner ok");
-ok($doc3->{_id}, "_id ok");
+ok($doc3->{id}, "id ok");
 ok($doc3->{uri}, "uri ok");
 ok($doc3->{modified}, "modified ok");
 ok($doc3->{created}, "created ok");
@@ -86,7 +86,7 @@ my $img1 = $client->images->create({
 
 is($img1->{name}, "stock/logo.png", "name ok");
 ok($img1->{owner}, "owner ok");
-ok($img1->{_id}, "_id ok");
+ok($img1->{id}, "id ok");
 ok($img1->{uri}, "uri ok");
 ok($img1->{modified}, "modified ok");
 ok($img1->{created}, "created ok");

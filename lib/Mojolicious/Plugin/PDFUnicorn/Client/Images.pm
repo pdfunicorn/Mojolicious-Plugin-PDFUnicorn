@@ -5,7 +5,7 @@ use Mojo::Base 'Mojolicious::Plugin::PDFUnicorn::Client::Base';
 # create (\%data, \%options)
 #
 # Args:
-#   - name: ''
+#   - src: ''
 #     file: ''
 #   - callback: sub{ my ($doc) = @_; ...  }
 #
@@ -26,7 +26,7 @@ sub create{
             $url,
             form => {
                 image => { file => $image->{file} },
-                name => $image->{name},
+                src => $image->{name},
             },
             $self->callback($callback)
         );
@@ -37,7 +37,7 @@ sub create{
         $url,
         form => {
             image => { file => $image->{file} },
-            name => $image->{name},
+            src => $image->{name},
         }
     );
     my $res = $tx->res;

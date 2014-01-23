@@ -9,11 +9,11 @@ use Mojo::Base 'Mojolicious::Plugin::PDFUnicorn::Client::Base';
 #     template: ''
 #     data: ''
 #   - callback: sub{ my ($doc) = @_; ... }
-#     binary: 1
+#     pdf: 1
 #
 # Returns (or calls callback with):
-#   meta is true: document meta data
-#   meta is false: a PDF document as binary data
+#   pdf is false: document meta data
+#   pdf is true: a PDF document
 
 sub create{
     my ($self, $doc_meta, $options) = @_;
@@ -22,7 +22,7 @@ sub create{
     my $callback = $options->{callback};
 
     my $ua = Mojo::UserAgent->new;
-    my $url = $self->url_base.'/api/v1/documents'. ($options->{binary} ? '.binary' : '');
+    my $url = $self->url_base.'/v1/documents'. ($options->{pdf} ? '.pdf' : '');
     
     if ($callback){
         $ua->post($url, json => $doc_meta, $self->callback($callback));
@@ -34,7 +34,7 @@ sub create{
 
     if ($res->code != 200){
         Mojolicious::Plugin::PDFUnicorn::Client::Exception->throw({
-            errors => $res->json->{errors},
+            errors => $res->json ? $res->json->{errors} : $res->{error},
         });
     }
 
@@ -48,11 +48,11 @@ sub create{
 #   - id: ''
 #     uri: ''
 #   - callback: sub{ my ($doc) = @_ }
-#     meta: 1
+#     pdf: 1
 #
 # Returns (or calls callback with):
-#   meta is true: document meta data
-#   meta is false: a PDF document as binary data
+#   pdf is false: document meta data
+#   pdf is true: a PDF document
 
 sub fetch{
     my ($self, $query_meta, $options) = @_;
@@ -62,12 +62,12 @@ sub fetch{
     
     $options ||= {};
     my $callback = $options->{callback};
-    my $binary = $options->{binary};
+    my $pdf = $options->{pdf};
         
-    my $uri = $query_meta->{uri} || '/api/v1/documents/'.$query_meta->{id};
+    my $uri = $query_meta->{uri} || '/v1/documents/'.$query_meta->{id};
     
     my $ua = Mojo::UserAgent->new;
-    my $url = $self->url_base . $uri. ($binary ? '.binary' : '');
+    my $url = $self->url_base . $uri. ($pdf ? '.pdf' : '');
 
     if ($callback){
         $ua->get($url, $self->callback($callback));        

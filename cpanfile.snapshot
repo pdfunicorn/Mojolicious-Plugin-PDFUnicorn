@@ -163,7 +163,6 @@ DISTRIBUTIONS
       ojo undef
     requirements:
       ExtUtils::MakeMaker 0
-      perl 5.010001
   Try-0.03
     pathname: D/DO/DOY/Try-0.03.tar.gz
     provides:

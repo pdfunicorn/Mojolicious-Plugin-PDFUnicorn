@@ -19,14 +19,14 @@ sub create{
     my $callback = $options->{callback};    
     
     my $ua = Mojo::UserAgent->new;
-    my $url = $self->url_base.'/api/v1/images'. ($options->{binary} ? '.binary' : '');
+    my $url = $self->url_base.'/v1/images'. ($options->{img} ? '.img' : '');
 
     if ($callback){
         $ua->post(
             $url,
             form => {
                 image => { file => $image->{file} },
-                src => $image->{name},
+                src => $image->{src},
             },
             $self->callback($callback)
         );
@@ -37,12 +37,12 @@ sub create{
         $url,
         form => {
             image => { file => $image->{file} },
-            src => $image->{name},
+            src => $image->{src},
         }
     );
     my $res = $tx->res;
         
-    return $options->{binary} ? $res->body : $res->json;
+    return $options->{img} ? $res->body : $res->json;
 
 }
 

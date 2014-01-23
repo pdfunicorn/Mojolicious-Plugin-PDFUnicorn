@@ -43,10 +43,8 @@ $doc = $client->documents->create({
 });
 
 is($doc->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
-ok($doc->{owner}, "owner ok");
 ok($doc->{id}, "id ok");
 ok($doc->{uri}, "uri ok");
-ok($doc->{modified}, "modified ok");
 ok($doc->{created}, "created ok");
 ok(!$doc->{file}, "file ok");
 
@@ -55,17 +53,15 @@ ok(!$doc->{file}, "file ok");
 
 my $doc3 = $client->documents->fetch($doc);
 is($doc3->{source}, '<doc size="b5"><page>Hello World!</page></doc>', "source ok");
-ok($doc3->{owner}, "owner ok");
 ok($doc3->{id}, "id ok");
 ok($doc3->{uri}, "uri ok");
-ok($doc3->{modified}, "modified ok");
 ok($doc3->{created}, "created ok");
 ok(!$doc3->{file}, "file ok");
 
 
 # fetch pdf
 
-my $doc4 = $client->documents->fetch($doc, { binary => 1 });
+my $doc4 = $client->documents->fetch($doc, { pdf => 1 });
 ok($doc4 =~ /^%PDF/, 'doc is a PDF');
 
 
@@ -73,7 +69,7 @@ ok($doc4 =~ /^%PDF/, 'doc is a PDF');
 
 my $doc2 = $client->documents->create({
     source => '<doc><page>Hello World!</page></doc>',
-}, { binary => 1 });
+}, { pdf => 1 });
 ok($doc2 =~ /^%PDF/, 'doc is a PDF');
 
 
@@ -81,20 +77,18 @@ ok($doc2 =~ /^%PDF/, 'doc is a PDF');
 
 my $img1 = $client->images->create({
     file => 't/unicorn_48.png',
-    name => '/stock/logo.png',
+    src => '/stock/logo.png',
 });
 
-is($img1->{name}, "stock/logo.png", "name ok");
-ok($img1->{owner}, "owner ok");
+is($img1->{src}, "stock/logo.png", "src ok");
 ok($img1->{id}, "id ok");
 ok($img1->{uri}, "uri ok");
-ok($img1->{modified}, "modified ok");
 ok($img1->{created}, "created ok");
 
 my $img2 = $client->images->create({
     file => 't/unicorn_48.png',
-    name => '/stock/logo.png',
-}, { binary => 1 });
+    src => '/stock/logo.png',
+}, { img => 1 });
 
 ok($img2 =~ /^.{1,3}PNG/, 'doc is an image');
 

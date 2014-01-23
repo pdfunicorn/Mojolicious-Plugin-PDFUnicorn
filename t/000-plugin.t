@@ -32,7 +32,6 @@ $t->get_ok('/')
     ->json_has( '/owner', "has owner" )
     ->json_has( '/id', "has id" )
     ->json_has( '/uri', "has uri" )
-    ->json_has( '/modified', "has modified" )
     ->json_has( '/created', "has created" )
     ->json_is( '/file', undef, "file is undef" );
     
